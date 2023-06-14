@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<Schema name="dwadventure">
+<!--
+  == This software is subject to the terms of the Eclipse Public License v1.0
+  == Agreement, available at the following URL:
+  == http://www.eclipse.org/legal/epl-v10.html.
+  == You must accept the terms of that agreement to use this software.
+  ==
+  == Copyright (C) 2000-2005 Julian Hyde
+  == Copyright (C) 2005-2011 Pentaho and others
+  == All Rights Reserved.
+  -->
+
+<!-- Shared dimensions -->
+
+  
+
+<!-- Sales -->
+<Cube name="Jual" defaultMeasure="Amount">
+  <!-- Use annotations to provide translations of this cube's caption and
+       description into German and French. Use of annotations in this manner is
+       experimental and unsupported; just for testing right now. -->
+  
+  <Table name="fakta_sales"/>
+
+    
+  <Dimension name="sales_territory" foreignKey ="TerritoryID">
+      <Hierarchy hasAll="true" allMemberName="All Territory" primaryKey ="TerritoryID">
+      <Table name="sales_territory"/>
+      <Level name="Negara" column="Negara"/>
+      </Hierarchy>
+      
+  </Dimension>
+
+<Dimension name="waktu" foreignKey="waktu_id">
+    <Hierarchy hasAll="true" allMemberName="All Times" primaryKey="waktu_id">
+      <Table name="waktu" />
+      <Level name="Year" column="tahun" type="Numeric" uniqueMembers="true"
+          levelType="TimeYears"/>
+      <Level name="Month" column="bulan" uniqueMembers="false" type="Numeric"
+          levelType="TimeMonths"/>
+      <Level name="Date" column="tgl" uniqueMembers="false" type="Numeric"
+          levelType="TimeDays"/>
+    </Hierarchy>
+   
+  </Dimension>
+
+  <Dimension name="produk" foreignKey = "ProductID">
+    <Hierarchy hasAll="true" allMemberName="All Produk" primaryKey ="ProductID">
+      <Table name="produk" />
+      <Level name="Kategori" column="Kategori"/>
+      <Level name="Sub Kategori" column="SubKategori" />
+      <Level name="Nama Produk" column="NamaProduk" />
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="specialoffer" foreignKey = "SpecialOfferID">
+    <Hierarchy hasAll="true" allMemberName="All SpecialOffer" primaryKey ="SpecialOfferID">
+      <Table name="specialoffer" />
+      <Level name="Kategori" column="Category"/>
+      <Level name="Tipe" column="Type" />
+      <Level name="Deskripsi" column="Description" />
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="customer" foreignKey="ContactID">
+    
+    <Hierarchy  hasAll  ="true" allMemberName="All Customer" primaryKey  = "ContactID">
+        <Table name="customer"/>
+        <Level name="Nama Customer" column="NamaCustomer"/>
+    </Hierarchy>
+  </Dimension>
+    
+  
+
+  <Measure name="TotalDue" column="TotalDue" aggregator="sum"
+      formatString="Standard"/>
+  <Measure name="OrderQty" column="OrderQty" aggregator="sum"
+      formatString="Standard"/>
+  
+  
+  
+</Cube>
+
+
+
+</Schema>
